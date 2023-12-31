@@ -1,6 +1,6 @@
 # Akinator-Bot
-A Telegram bot where you can play the Akinator Guessing game
-check out [Akinator](https://telegram.me/PlaylistlinkextractorBot) on Telegram.
+SEND this bot playlist link it will sent you back each link in MONOSPCAED so that you can copy and download 
+check out [Youtube playlist Link extractor](https://telegram.me/PlaylistlinkextractorBot) on Telegram.
 If the bot is offline, contact [me](https://telegram.me/blacknut1803) on telegram, so that I can look into it.
 
 
