@@ -1,8 +1,8 @@
 from typing import Any
 from pymongo import MongoClient
-
+from config import host
 my_client = MongoClient(
-    host="mongodb+srv://dp950810:Vxxtzwwh91WZ2aZw@cluster0.hlhsyvo.mongodb.net/?retryWrites=true&w=majority")
+    host=host)
 my_db = my_client["link_extractor_db"]  # selecting the database
 
 def addUser(user_id: int, first_name: str, last_name: str, user_name: str) -> None:
@@ -34,3 +34,9 @@ def updateUser(user_id: int, first_name: str, last_name: str, user_name: str) ->
         "last_name": last_name,
     }
     my_col.update_one({"user_id": user_id}, {"$set": to_update})
+    
+def totalUsers():
+    my_col = my_db["users"]
+    #Returns the total no.of users who has started the bot.
+    return len(list(my_col.find({})))
+

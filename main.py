@@ -1,9 +1,11 @@
 # from pytube import Playlist
 from pytube import Playlist,YouTube
+from pprint import pprint
 from pytube.exceptions import VideoUnavailable
+import time
+from config import bot_token
 import re
-BOT_TOKEN = "6905156557:AAFC8yw3ZYUVLTv-wV9wEuvIHPU-cmiTkCs"
-pattern = '^https?:\/\/(?:www\.)?youtube\.com\/playlist\?list=[\w-]+(?:&[\w-]+(=[\w-]*)?)*$'
+pattern = r'^https?:\/\/(?:www\.)?youtube\.com\/playlist\?list=[\w-]+(?:&[\w-]+(=[\w-]*)?)*$'
 from telegram import Update,InlineKeyboardButton,InlineKeyboardMarkup
 from telegram.constants import ParseMode
 from telegram.ext import (CommandHandler,
@@ -14,17 +16,8 @@ from telegram.ext import (CommandHandler,
                           MessageHandler,
                           filters)
 
-from database import addUser
-DEV_URL = "https://t.me/blacknut1803"
-DEV_MARKUP = InlineKeyboardMarkup(
-    [
-        [
-
-            InlineKeyboardButton('DEVELOPER👩‍💻', DEV_URL)
-        ]
-    ]
-)
-
+from database import addUser,totalUsers
+from keyboard import DEV_MARKUP
 async def start(update: Update,context:ContextTypes.DEFAULT_TYPE) -> None:
     
         await update.message.reply_text(text="<b>welcome just send me the playlist link i will send you the links of each video in <code>MONOSPACED</code></b>\n<b>NOTE: THIS BOT IS CURRENTLY IN BETA VERSION</b> ",reply_to_message_id=update.message.message_id,allow_sending_without_reply=True,parse_mode=ParseMode.HTML,reply_markup=DEV_MARKUP)
@@ -57,15 +50,12 @@ async def link_extractor(update:Update,context:CallbackContext) -> None:
                                caption=f"{i}.<b>{title}</b> \n<b>link:</b><code>{url}</code>", reply_to_message_id=update.message.id, allow_sending_without_reply=True,
                                parse_mode=ParseMode.HTML)
             
-        
-        
-    
 
 
 def main():
 
     application = Application.builder().token(
-        BOT_TOKEN).build()
+        bot_token).build()
     application.add_handler(CommandHandler('start',start))
     application.add_handler(MessageHandler(filters=filters.TEXT & ~filters.COMMAND,callback=link_extractor))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
